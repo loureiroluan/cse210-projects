@@ -13,6 +13,8 @@ public class ListingActivity : Activity
         "Who are some of your personal heroes?"
     };
 
+    private List<string> listedItems = new List<string>();
+
     public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life.")
     {
     }
@@ -22,31 +24,39 @@ public class ListingActivity : Activity
         Random random = new Random();
         Console.WriteLine("You may begin in:");
         List<string> animationStrings = new List<string> { "|", "/", "-", "\\" };
-            {
+        {
             foreach (string s in animationStrings)
             {
                 Console.Write(s);
                 Thread.Sleep(1000);
                 Console.Write("\b \b");
             }
-            }
+        }
+
+        string prompt = GetRandomPrompt();
+        Console.WriteLine(prompt);
+
+        int itemsListed = 0;
+
+        while (true)
         {
-            string prompt = GetRandomPrompt();
-            Console.WriteLine(prompt);
-            
+            string item = GetListFromUser();
+            if (item.ToLower() == "done")
+                break;
 
-            int itemsListed = 0;
-            
+            listedItems.Add(item);
+            itemsListed++;
+        }
 
-            while (true)
-            {
-                string item = GetListFromUser();
-                if (item.ToLower() == "done")
-                    break;
-                itemsListed++;
-            }
+        Console.WriteLine($"\nYou listed {itemsListed} items.");
 
-            Console.WriteLine($"\nYou listed {itemsListed} items.");
+        Console.Write("Do you want to save the list? (yes/no): ");
+        string response = Console.ReadLine().ToLower();
+
+        if (response == "yes")
+        {
+            SaveListToFile();
+            Console.WriteLine("List saved successfully!");
         }
     }
 
@@ -60,4 +70,26 @@ public class ListingActivity : Activity
         Console.Write("Enter an answer (or 'done' to finish): ");
         return Console.ReadLine();
     }
+
+    private void SaveListToFile()
+    {
+        Console.Write("Enter a filename to save the list: ");
+        string fileName = Console.ReadLine();
+
+        SaveToFile(string.Join(Environment.NewLine, listedItems), fileName);
+    }
+
+    private void SaveToFile(string content, string fileName)
+    {
+        try
+        {
+            System.IO.File.WriteAllText(fileName, content);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving to file: {ex.Message}");
+        }
+    }
 }
+
+
