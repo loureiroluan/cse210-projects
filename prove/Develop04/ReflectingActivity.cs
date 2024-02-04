@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-
 public class ReflectingActivity : Activity
-{   
-    
+{
     private readonly List<string> prompts = new List<string>
-    {   
+    {
         "---Think of a time when you stood up for someone else.---",
         "---Think of a time when you did something really difficult.---",
         "---Think of a time when you helped someone in need.---",
@@ -35,48 +33,33 @@ public class ReflectingActivity : Activity
     {
         Random random = new Random();
 
-        for (int i = 5; i > 0; i--)
+        string randomPrompt = prompts[random.Next(prompts.Count)];
+
+        Console.WriteLine($"Consider the following prompt:\n{randomPrompt}");
+        WaitForEnter();
+
+        int remainingTime = duration;
+
+        while (remainingTime > 0)
         {
-            string prompt = GetRandomPrompt();
-            Console.WriteLine("Consider the following prompt:");
-            Console.WriteLine(prompt);
-            WaitForEnter();
-            
-            string reflectionQuestion = GetRandomQuestion();
-            Console.WriteLine(reflectionQuestion);
-            List<string> animationStrings = new List<string> { "|", "/", "-", "\\" };
-            {
-            foreach (string s in animationStrings)
-            {
-                Console.Write(s);
-                Thread.Sleep(1000);
-                Console.Write("\b \b");
-            }
-            }
-        }
-    }
+            string randomQuestion = GetRandomQuestion();
+            Console.WriteLine(randomQuestion);
 
-    private string GetRandomPrompt()
-    {
-        return prompts[new Random().Next(prompts.Count)];
+            Thread.Sleep(3000);
+            remainingTime -= 3000;
+        }    
     }
-
     private string GetRandomQuestion()
     {
-        return reflectionQuestions[new Random().Next(reflectionQuestions.Count)];
+        Random random = new Random();
+        return reflectionQuestions[random.Next(reflectionQuestions.Count)];
     }
 
     private void WaitForEnter()
     {
-        Console.WriteLine("When you have something in mind, press Enter to continue...");
+        Console.WriteLine("Press Enter to continue...");
         Console.ReadLine();
-        Console.WriteLine("Now ponder on each of the following questions as they related to this experience");
-        Console.WriteLine("You may begin in:");
-            for (int i = 5; i > 0; i--)
-            {
-                Console.Write(i);
-                Thread.Sleep(1000);
-                Console.Write("\b \b");
-            }
     }
 }
+
+
