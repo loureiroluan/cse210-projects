@@ -1,3 +1,5 @@
+// For Exceeding the requirements I added the Evaluating the goals using the SMART method
+
 class Program
 {
     static void Main(string[] args)
@@ -55,13 +57,26 @@ class Program
         Console.WriteLine("3. Checklist Goal");
         Console.Write("Which type of goal would you like to create? ");
         int typeChoice = int.Parse(Console.ReadLine());
-
+        
         Console.Write("What is the name of your goal? ");
         string name = Console.ReadLine();
         Console.Write("What is a short description of it? ");
         string description = Console.ReadLine();
         Console.Write("What is the amount of points associated with this goal? ");
         int points = int.Parse(Console.ReadLine());
+
+        // Evaluating the goals using the SMART method
+        Console.WriteLine("Evaluate the goal using the SMART method:");
+        Console.Write("Is this goal Specific? (true/false): ");
+        bool isSpecific = bool.Parse(Console.ReadLine());
+        Console.Write("Is this goal Measurable? (true/false): ");
+        bool isMeasurable = bool.Parse(Console.ReadLine());
+        Console.Write("Is this goal Achievable? (true/false): ");
+        bool isAchievable = bool.Parse(Console.ReadLine());
+        Console.Write("Is this goal Relevant? (true/false): ");
+        bool isRelevant = bool.Parse(Console.ReadLine());
+        Console.Write("Is this goal Time-Based? (true/false): ");
+        bool isTimeBased = bool.Parse(Console.ReadLine());
 
         switch (typeChoice)
         {
