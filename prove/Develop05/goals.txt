@@ -1,0 +1,3 @@
+ready the scriptures|I will read the scriptures every day |50|False
+study this week|I will study everyday this week|10|False
+goal to the temple|I will go to the temple|10|0|3|100
