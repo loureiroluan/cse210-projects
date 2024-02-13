@@ -108,4 +108,50 @@ class GoalManager
             }
         }
     }
+        public void SaveProgress(string filename)
+    {
+        using (StreamWriter writer = new StreamWriter(filename))
+        {
+            writer.WriteLine($"Score: {_score}");
+
+            foreach (Goal goal in _goals)
+            {
+                writer.WriteLine(goal.GetStringRepresentation());
+            }
+        }
+    }
+    public void LoadProgress(string filename)
+    {
+        _goals.Clear();
+        using (StreamReader reader = new StreamReader(filename))
+        {
+            string line;
+            bool firstLine = true;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (firstLine) // Read and set score from the first line
+                {
+                    _score = int.Parse(line.Split(':')[1].Trim());
+                    firstLine = false;
+                    continue;
+                }
+                string[] parts = line.Split('|');
+                string name = parts[0];
+                string description = parts[1];
+                int points = int.Parse(parts[2]);
+                if (parts.Length == 4)
+                {
+                    bool isComplete = bool.Parse(parts[3]);
+                    AddGoal(new SimpleGoal(name, description, points) { _isComplete = isComplete });
+                }
+                else if (parts.Length == 6)
+                {
+                    int amountCompleted = int.Parse(parts[3]);
+                    int target = int.Parse(parts[4]);
+                    int bonus = int.Parse(parts[5]);
+                    AddGoal(new ChecklistGoal(name, description, points, target, bonus) { _amountCompleted = amountCompleted });
+                }
+            }
+        }
+    }                    
 }  
