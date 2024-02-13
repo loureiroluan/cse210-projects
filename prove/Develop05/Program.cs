@@ -16,7 +16,8 @@ class Program
             Console.WriteLine("3. Save Goals");
             Console.WriteLine("4. Load Goals");
             Console.WriteLine("5. Record Events");
-            Console.WriteLine("6. Quit");
+            Console.WriteLine("6. Display Score");
+            Console.WriteLine("7. Quit");
             Console.Write("Enter your choice: ");
             int choice = int.Parse(Console.ReadLine());
 
@@ -40,10 +41,13 @@ class Program
                     RecordEvents(goalManager);
                     break;
                 case 6:
+                    goalManager.DisplayPlayerInfo();
+                    break;
+                case 7:
                     exit = true;
                     break;
                 default:
-                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 6.");
+                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 7.");
                     break;
             }
         }

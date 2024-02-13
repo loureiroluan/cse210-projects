@@ -6,12 +6,12 @@ class EternalGoal : Goal
 
     public override int RecordEvent()
     {
-        return _points;
+        return _points; 
     }
 
     public override bool IsComplete()
     {
-        return false;
+        return false; 
     }
 
     public override string GetDetailsString()
