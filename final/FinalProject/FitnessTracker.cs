@@ -5,6 +5,11 @@ class FitnessTracker
     private List<Goal> goals;
     private DietPlan dietPlan;
 
+    public List<User> Users
+    {
+        get { return users; }
+    }
+
     public FitnessTracker()
     {
         users = new List<User>();
@@ -30,7 +35,8 @@ class FitnessTracker
         if (users.Contains(user))
         {
             Workout workout = new Workout();
-
+            workout.User = user;
+            workouts.Add(workout);
             Console.WriteLine($"Workout created for user '{user.Username}'.");
         }
         else
@@ -38,5 +44,6 @@ class FitnessTracker
             Console.WriteLine("User not found.");
         }
     }
+
 
 }

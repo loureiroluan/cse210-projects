@@ -3,6 +3,7 @@ class Workout
     public List<Exercise> Exercises { get; set; }
     public TimeSpan Duration { get; set; }
     public DateTime Date { get; set; }
+    public User User { get; set; }
 
     public Workout()
     {
@@ -19,7 +20,7 @@ class Workout
     {
         Console.WriteLine("Workout started.");
     }
-        public void EndWorkout()
+    public void EndWorkout()
     {
         Console.WriteLine("Workout ended.");
     }

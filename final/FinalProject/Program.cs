@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class Program
 {
-    static User loggedInUser; // 
-    static List<Workout> workouts = new List<Workout>(); // 
-    static List<PerformanceMetric> performanceMetrics = new List<PerformanceMetric>(); // 
+    static User loggedInUser;
+    static FitnessTracker tracker = new FitnessTracker();
+    static List<Workout> workouts = new List<Workout>();
+    static List<PerformanceMetric> performanceMetrics = new List<PerformanceMetric>();
+    static List<Goal> goals = new List<Goal>();
+    static DietPlan dietPlan = new DietPlan();
     static void Main(string[] args)
     {
-        FitnessTracker tracker = new FitnessTracker();
         bool exit = false;
 
         while (!exit)
@@ -50,8 +54,20 @@ class Program
                     string username = Console.ReadLine();
                     Console.Write("Enter password: ");
                     string password = Console.ReadLine();
+
+                    loggedInUser = tracker.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+
+                    if (loggedInUser != null)
+                    {
+                        Console.WriteLine($"User '{username}' logged in successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid username or password.");
+                    }
                     break;
                 case 3:
+                    // Update Profile
                     if (loggedInUser != null)
                     {
                         Console.Write("Enter age: ");
@@ -70,33 +86,10 @@ class Program
                     break;
 
                 case 4:
+                    // Create Workout
                     if (loggedInUser != null)
                     {
-                        Workout newWorkout = new Workout();
-                        Console.WriteLine("Adding exercises to the workout:");
-                        bool addMoreExercises = true;
-                        while (addMoreExercises)
-                        {
-                            Exercise exercise = new Exercise();
-                            Console.Write("Enter exercise name: ");
-                            exercise.Name = Console.ReadLine();
-                            Console.Write("Enter exercise category: ");
-                            exercise.Category = Console.ReadLine();
-                            Console.Write("Enter exercise intensity: ");
-                            exercise.Intensity = Console.ReadLine();
-
-                            newWorkout.AddExercise(exercise);
-
-                            Console.Write("Do you want to add another exercise? (yes/no): ");
-                            addMoreExercises = Console.ReadLine().Equals("yes", StringComparison.OrdinalIgnoreCase);
-                        }
-
-                        Console.Write("Enter workout duration (in minutes): ");
-                        int durationMinutes = int.Parse(Console.ReadLine());
-                        newWorkout.Duration = TimeSpan.FromMinutes(durationMinutes);
-
-                        workouts.Add(newWorkout);
-                        Console.WriteLine("Workout created successfully.");
+                        tracker.CreateWorkout(loggedInUser);
                     }
                     else
                     {
@@ -107,7 +100,7 @@ class Program
                     if (loggedInUser != null)
                     {
                         Console.WriteLine("Workouts:");
-                        foreach (var workout in workouts)
+                        foreach (var workout in workouts.Where(w => w.User == loggedInUser))
                         {
                             Console.WriteLine($"Date: {workout.Date}, Duration: {workout.Duration}");
                             foreach (var exercise in workout.Exercises)
@@ -145,7 +138,10 @@ class Program
                 case 7:
                     if (loggedInUser != null)
                     {
-                        Console.WriteLine("View Progress logic");
+                        Console.WriteLine($"User: {loggedInUser.Username}");
+                        Console.WriteLine($"Age: {loggedInUser.Age}");
+                        Console.WriteLine($"Weight: {loggedInUser.Weight} kg");
+                        Console.WriteLine($"Height: {loggedInUser.Height} cm");
                     }
                     else
                     {
@@ -155,7 +151,8 @@ class Program
                 case 8:
                     if (loggedInUser != null)
                     {
-                        Console.WriteLine("Generate Report logic");
+
+                        Console.WriteLine("Report generation logic will be implemented here.");
                     }
                     else
                     {
@@ -165,7 +162,11 @@ class Program
                 case 9:
                     if (loggedInUser != null)
                     {
-                        Console.WriteLine("Set Goals logic");
+                        Console.Write("Enter goal description: ");
+                        string description = Console.ReadLine();
+                        Goal goal = new Goal(description);
+                        goals.Add(goal);
+                        Console.WriteLine($"Goal '{description}' set successfully.");
                     }
                     else
                     {
@@ -175,7 +176,11 @@ class Program
                 case 10:
                     if (loggedInUser != null)
                     {
-                        Console.WriteLine("Plan Diet logic");
+                        Console.WriteLine("Adding meals to diet plan:");
+                        Console.Write("Enter meal: ");
+                        string meal = Console.ReadLine();
+                        dietPlan.AddMeal(meal);
+                        Console.WriteLine($"Meal '{meal}' added to diet plan successfully.");
                     }
                     else
                     {
@@ -185,6 +190,7 @@ class Program
                 case 11:
                     exit = true;
                     break;
+
                 default:
                     Console.WriteLine("Invalid choice. Please enter a number between 1 and 11.");
                     break;
@@ -192,3 +198,5 @@ class Program
         }
     }
 }
+
+

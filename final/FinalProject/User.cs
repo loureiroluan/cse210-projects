@@ -1,11 +1,12 @@
-class User
+public class User
 {
     public string Username { get; set; }
     public string Password { get; set; }
     public int Age { get; set; }
     public float Weight { get; set; }
     public float Height { get; set; }
-
+    public int Id { get; private set; }
+    
     public void UpdateProfile(int age, float weight, float height)
     {
         Age = age;
@@ -14,4 +15,5 @@ class User
         Console.WriteLine("Profile updated successfully.");
     }
 }
+
 

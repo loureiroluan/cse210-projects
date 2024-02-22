@@ -9,3 +9,4 @@ class Exercise
         Console.WriteLine($"Performance for exercise '{Name}' recorded successfully.");
     }
 }
+

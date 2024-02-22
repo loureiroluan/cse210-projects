@@ -17,4 +17,3 @@ class DietPlan
         Meals.Remove(meal);
     }
 }
-

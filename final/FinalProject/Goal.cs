@@ -14,3 +14,4 @@ class Goal
         Console.WriteLine($"Progress for goal '{Description}' updated.");
     }
 }
+
